@@ -24,7 +24,7 @@ DAL<Key,Data>::DAL ( int _iMaxSz ) :
 
 template < typename Key, typename Data >
 int DAL< Key, Data >::_search( Key _x ) const{ // Metodo de busca auxiliar.
-    auto i(0);
+    auto i( 0 );
     for ( /* Empty */ ; mpt_Data[i].id != _x and i < mi_Length ; i++ ){
         /* Empty */
     }
@@ -36,7 +36,7 @@ int DAL< Key, Data >::_search( Key _x ) const{ // Metodo de busca auxiliar.
 template < typename Key, typename Data >
 bool DAL< Key, Data >::remove( const Key & _x, Data & _removed ){	// Remove da lista.
     // idx recebe a posição do elemento no dicionário.
-    auto idx = _search(_x);
+    auto idx = _search( _x );
     
     // Se não está no dicionário (idx == mi_Length), não tem como apagar. Então return false.
     if( idx == mi_Length ) return false;
@@ -94,8 +94,8 @@ bool DAL< Key, Data >::insert( const Key & _novaId, const Data & _novaInfo ){	//
 template< typename Key, typename Data >
 Key DAL< Key, Data >::max( ) const{
     Key _max = mpt_Data[ 0 ].id;
-    for (auto i(1) ; i < mi_Length ; i++){
-        if (mpt_Data[ i ].id > _max ) _max = mpt_Data[ i ].id;
+    for ( auto i(1) ; i < mi_Length ; i++ ){
+        if ( mpt_Data[ i ].id > _max ) _max = mpt_Data[ i ].id;
     }
     return _max;
 }
@@ -104,8 +104,8 @@ template< typename Key, typename Data >
 Key DAL< Key, Data >::min( ) const{
         if ( mi_Length > 0 ){
             Key _min = mpt_Data[ 0 ].id;
-            for (auto i(1) ; i < mi_Length ; i++){
-                if (mpt_Data[ i ].id < _min ) _min = mpt_Data[ i ].id;
+            for ( auto i(1) ; i < mi_Length ; i++ ){
+                if ( mpt_Data[ i ].id < _min ) _min = mpt_Data[ i ].id;
             }
             return _min;
     }
@@ -119,7 +119,7 @@ bool DAL< Key, Data >::sucessor( const Key & _x , Key & _y ) const{
     _y = max();
     
     for (auto i(0) ; i < mi_Length ; i++){
-        if (mpt_Data[ i ].id < _y &&  mpt_Data[ i ].id > _x ) _y = mpt_Data[ i ].id;
+        if ( mpt_Data[ i ].id < _y &&  mpt_Data[ i ].id > _x ) _y = mpt_Data[ i ].id;
     }
     
     if ( _y == _x ) return false;
@@ -132,11 +132,11 @@ bool DAL< Key, Data >::predecessor( const Key & _x , Key & _y ) const{
     if ( mi_Length < 2 ) return false;
     _y = min();
     
-    for (auto i(0) ; i < mi_Length ; i++){
-        if (mpt_Data[ i ].id > _y &&  mpt_Data[ i ].id < _x ) _y = mpt_Data[ i ].id;
+    for ( auto i(0) ; i < mi_Length ; i++ ){
+        if ( mpt_Data[ i ].id > _y &&  mpt_Data[ i ].id < _x ) _y = mpt_Data[ i ].id;
     }
     
-    if (_y == _x) return false;
+    if ( _y == _x ) return false;
     
     return true;
 }
@@ -150,12 +150,12 @@ template < typename Key, typename Data >
 Key DSAL< Key, Data >::_search( const Key & _x ) const{ // Metodo de busca auxiliar.
     auto middle = 0, left = 0, right = DAL< Key, Data >::mi_Length - 1;
     // Busca binária.
-    while (left <= right){
+    while ( left <= right ){
     
         middle = ( left + right ) / 2;
         
-        if ( DAL<Key, Data>::mpt_Data[middle].id == _x ) return middle;
-        else if ( DAL<Key, Data>::mpt_Data[middle].id < _x ) left = middle + 1;
+        if ( DAL< Key, Data >::mpt_Data[ middle ].id == _x ) return middle;
+        else if ( DAL< Key, Data >::mpt_Data[ middle ].id < _x ) left = middle + 1;
         else right = middle - 1;
     
         
@@ -174,24 +174,24 @@ bool DSAL< Key, Data >::insert(const Key &_novaId, const Data &_novaInfo){
     if ( idx == DAL<Key, Data>::mi_Length )
     {
         // Mas se o dicionário já estiver cheio, não será adicionado, retornando false.
-        if ( DAL<Key, Data>::mi_Length == DAL<Key, Data>::mi_Capacity ){
+        if ( DAL< Key, Data >::mi_Length == DAL< Key, Data >::mi_Capacity ){
             throw std::length_error ( "[DSAL()]: Tamanho de lista invalido!" );
             return false;
         }
 
         // Caso contrário, o elemento será adicionado normalmente, retornando true.
-        DAL<Key, Data>::mi_Length++;
-        auto i(DAL<Key, Data>::mi_Length-1);
+        DAL< Key, Data >::mi_Length++;
+        auto i( DAL< Key, Data >::mi_Length-1 );
 
         // Como é ordenado, deve-se colocar o elemento na posição correta. Logo, alguns elementos são afastados.
-        while ( i > 0 and _novaId < DAL<Key, Data>::mpt_Data[i-1].id ){
-            DAL<Key, Data>::mpt_Data[ i ].id = DAL<Key, Data>::mpt_Data[ i-1 ].id;
-            DAL<Key, Data>::mpt_Data[ i ].info = DAL<Key, Data>::mpt_Data[ i-1 ].info;
+        while ( i > 0 and _novaId < DAL< Key, Data >::mpt_Data[i-1].id ){
+            DAL< Key, Data >::mpt_Data[ i ].id = DAL< Key, Data >::mpt_Data[ i-1 ].id;
+            DAL< Key, Data >::mpt_Data[ i ].info = DAL< Key, Data >::mpt_Data[ i-1 ].info;
             i--;
         }
 
-        DAL<Key, Data>::mpt_Data[ i ].id = _novaId;
-        DAL<Key, Data>::mpt_Data[ i ].info = _novaInfo;
+        DAL< Key, Data >::mpt_Data[ i ].id = _novaId;
+        DAL< Key, Data >::mpt_Data[ i ].info = _novaInfo;
 
         return true;
     }
@@ -199,19 +199,19 @@ bool DSAL< Key, Data >::insert(const Key &_novaId, const Data &_novaInfo){
 }
 
 template < typename Key, typename Data >
-bool DSAL< Key, Data >::remove(const Key &_x, Data & _removed){
+bool DSAL< Key, Data >::remove( const Key &_x, Data & _removed ){
     // idx recebe a posição do elemento no dicionário.
-    auto idx = _search(_x);
+    auto idx = _search( _x );
     
     // Se não está no dicionário (idx == mi_Length), não tem como apagar. Então return false.
-    if( idx == DAL<Key, Data>::mi_Length ) return false;
+    if( idx == DAL< Key, Data >::mi_Length ) return false;
     
     // Se estiver no dicionário, todos os elementos avançam em direção ao início e retorna o elemento que foi apagado.
-    _removed = DAL<Key, Data>::mpt_Data[ idx ].info;
+    _removed = DAL< Key, Data >::mpt_Data[ idx ].info;
     
-    for ( auto i(idx) ; i < DAL<Key, Data>::mi_Length-1 ; i++ ){
-        DAL<Key, Data>::mpt_Data[ i ].info = DAL<Key, Data>::mpt_Data[ i+1 ].info;
-        DAL<Key, Data>::mpt_Data[ i ].id = DAL<Key, Data>::mpt_Data[ i+1 ].id;
+    for ( auto i( idx ) ; i < DAL< Key, Data >::mi_Length-1 ; i++ ){
+        DAL< Key, Data >::mpt_Data[ i ].info = DAL< Key, Data >::mpt_Data[ i+1 ].info;
+        DAL< Key, Data >::mpt_Data[ i ].id = DAL< Key, Data >::mpt_Data[ i+1 ].id;
     }
     
     DAL<Key, Data>::mi_Length--;
@@ -221,7 +221,7 @@ bool DSAL< Key, Data >::remove(const Key &_x, Data & _removed){
 template < typename Key, typename Data >
 Key DSAL< Key, Data >::min( ) const{  // Recupera a menor chave do dicionário.
     if ( DAL< Key, Data >::mi_Length > 0 ){
-        return DAL<Key, Data>::mpt_Data[ 0 ].id;
+        return DAL< Key, Data >::mpt_Data[ 0 ].id;
     }
     else throw std::length_error ( "[DSAL()]: Tamanho de lista invalido!" );
 }
@@ -229,7 +229,7 @@ Key DSAL< Key, Data >::min( ) const{  // Recupera a menor chave do dicionário.
 template < typename Key, typename Data >
 Key DSAL< Key, Data >::max( ) const{ // Recupera a maior chave do dicionário.
     if ( DAL< Key, Data >::mi_Length > 0 ){
-        return DAL<Key, Data>::mpt_Data[ DAL< Key, Data >::mi_Length-1 ].id;
+        return DAL< Key, Data >::mpt_Data[ DAL< Key, Data >::mi_Length-1 ].id;
     }
     else throw std::length_error ( "[DSAL()]: Tamanho de lista invalido!" );
 }
