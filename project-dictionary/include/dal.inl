@@ -157,8 +157,6 @@ Key DSAL< Key, Data >::_search( const Key & _x ) const{ // Metodo de busca auxil
         if ( DAL< Key, Data >::mpt_Data[ middle ].id == _x ) return middle;
         else if ( DAL< Key, Data >::mpt_Data[ middle ].id < _x ) left = middle + 1;
         else right = middle - 1;
-    
-        
     }
 
     // Retorna a posição do elemento pesquisado no dicionário. Caso não esteja, retorna o mesmo valor de mi_Length.
@@ -189,7 +187,7 @@ bool DSAL< Key, Data >::insert(const Key &_novaId, const Data &_novaInfo){
             DAL< Key, Data >::mpt_Data[ i ].info = DAL< Key, Data >::mpt_Data[ i-1 ].info;
             i--;
         }
-
+        
         DAL< Key, Data >::mpt_Data[ i ].id = _novaId;
         DAL< Key, Data >::mpt_Data[ i ].info = _novaInfo;
 
