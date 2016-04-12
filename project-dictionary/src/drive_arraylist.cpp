@@ -41,6 +41,18 @@ int main ( )
     cout << endl << myList.sucessor(8, x) << endl;
     cout << endl << x << endl;
     */
+
+
+    cout << endl << myList.max() << endl;
+    cout << endl << myList2.max() << endl;
+
+    auto pre = 0, suc = 0;
+
+    myList2.predecessor( 2, pre );
+    myList2.sucessor( 2, suc );
+
+    cout << endl << pre << endl << suc << endl;
+
     std::cout << "\n>>> myList: " << myList << std::endl;
     std::cout << "\n>>> myList2: " << myList2 << std::endl;
     
@@ -48,9 +60,17 @@ int main ( )
     myList.remove( 2, retur );
     myList.remove( 8, retur );
     myList.remove( 9, retur );
+
+    myList2.remove( 2, retur);
+       std::cout << "\n>>> myList2: " << myList2 << std::endl; 
+    myList2.remove( 3, retur);
+       std::cout << "\n>>> myList2: " << myList2 << std::endl; 
+    myList2.remove( 1, retur);
     
-    std::cout << "\n>>> myList: " << myList << std::endl;    
-    //std::cout << retur;    
+    std::cout << "\n>>> myList: " << myList << std::endl;   
+    std::cout << "\n>>> myList2: " << myList2 << std::endl; 
+    //std::cout << retur;
+
 
     std::cout << "\n>>> Normal ending...\n\n";
 
