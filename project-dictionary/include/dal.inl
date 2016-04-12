@@ -160,7 +160,36 @@ Key DSAL< Key, Data >::_search( const Key & _x ) const{ // Metodo de busca auxil
 
 template < typename Key, typename Data >
 bool DSAL< Key, Data >::insert(const Key &_novaId, const Data &_novaInfo){
-    return 0;
+    // idx recebe a posição do elemento no dicionário.
+    Key idx = _search( _novaId );
+
+    // Se não estiver no dicionário, será adicionado.
+    if ( idx == DAL<Key, Data>::mi_Length )
+    {
+        // Mas se o dicionário já estiver cheio, não será adicionado, retornando false.
+        if ( DAL<Key, Data>::mi_Length == DAL<Key, Data>::mi_Capacity ){
+            throw std::length_error ( "[DAL()]: Tamanho de lista invalido!" );
+            return false;
+        }
+
+        // Caso contrário, o elemento será adicionado normalmente, retornando true.
+        DAL<Key, Data>::mi_Length++;
+        auto i(DAL<Key, Data>::mi_Length-1);
+
+        // Como é ordenado, deve-se colocar o elemento na posição correta. Logo, alguns elementos são afastados.
+        while ( i > 0 and _novaId < DAL<Key, Data>::mpt_Data[i-1].id ){
+            DAL<Key, Data>::mpt_Data[ i ].id = DAL<Key, Data>::mpt_Data[ i-1 ].id;
+            DAL<Key, Data>::mpt_Data[ i ].info = DAL<Key, Data>::mpt_Data[ i-1 ].info;
+            i--;
+        }
+
+        DAL<Key, Data>::mpt_Data[ i ].id = _novaId;
+        DAL<Key, Data>::mpt_Data[ i ].info = _novaInfo;
+
+        return true;
+    }
+    return false;
+
 }
 
 template < typename Key, typename Data >

@@ -18,22 +18,31 @@
 int main ( )
 {
     DAL< int, std::string  >  myList( 50 ); // Lista de no máximo 50 elementos.
+    DSAL< int, std::string > myList2( 50 );
+
     std::string retur;
-    auto x(0);
+    //auto x(0);
     std::cout << "\n>>> myList: " << myList << std::endl;
+    std::cout << "\n>>> myList2: " << myList2 << std::endl;
     
     myList.insert( 15, "dado 1" );
     myList.insert( 2, "dado 2" );
     myList.insert( 8, "dado 3" );
+
+    myList2.insert( 2, "dado 1");
+    myList2.insert( 3, "dado 2");
+    myList2.insert( 1, "dado 3");
     
+    /*
     cout << endl << myList.max() << endl;
     cout << endl << myList.min() << endl;
     cout << endl << myList.predecessor(8, x) << endl;
     cout << endl << x << endl;
     cout << endl << myList.sucessor(8, x) << endl;
     cout << endl << x << endl;
-    
+    */
     std::cout << "\n>>> myList: " << myList << std::endl;
+    std::cout << "\n>>> myList2: " << myList2 << std::endl;
     
     myList.remove( 15, retur );
     myList.remove( 2, retur );
