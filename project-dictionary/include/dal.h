@@ -22,7 +22,7 @@ using std::endl;
 using std::string;
 
 
-template < typename Key, typename Data >
+template < typename Key, typename Data, typename KeyComparator >
 class DAL
 {
     protected:
@@ -36,18 +36,19 @@ class DAL
         int mi_Capacity;            // Capacidade maxima de armazenamento.
         NodeAL *mpt_Data;          // Area de armazenamento: vetor regular.
 
-        int _search( Key _x ) const; // Metodo de busca auxiliar.
+        int _search( Key ) const; // Metodo de busca auxiliar.
 
     public:
-        DAL ( int _MaxSz = SIZE );
-        virtual ~DAL () { delete [] mpt_Data; };
-        bool remove( const Key & _x, Data & );     // Remove da lista.
-        bool search( const Key & _x, Data & ) const; // Busca publica.
-        bool insert( const Key & _novaId, const Data & _novaInfo ); // Inserir novo elemento.
-        Key max() const;
-        Key min() const;
-        bool predecessor ( const Key & _x , Key & _y ) const;
-        bool sucessor ( const Key & _x , Key & _y ) const;
+        DAL ( int );
+        int compare ( Key, Key );
+        virtual ~DAL ( ) { delete [] mpt_Data; };
+        bool remove( const Key &, Data & );     // Remove da lista.
+        bool search( const Key &, Data & ) const; // Busca publica.
+        bool insert( const Key &, const Data & ); // Inserir novo elemento.
+        Key max( ) const;
+        Key min( ) const;
+        bool predecessor ( const Key &, Key & ) const;
+        bool sucessor ( const Key &, Key & ) const;
         
         //! Sobrecarga do operador <<, que faz com que seja impresso o conteudo da lista.
         /*! @param _os Output stream, normalmente o <CODE>cout</code>.
@@ -64,24 +65,23 @@ class DAL
         }
 };
 
-template <typename Key, typename Data>
-class DSAL : public DAL<Key, Data> { // Indicação de herança.
+template <typename Key, typename Data, typename KeyComparator >
+class DSAL : public DAL<Key, Data, KeyComparator > { // Indicação de herança.
+    public:
+        DSAL( int _MaxSz ) : DAL< Key, Data, KeyComparator >( _MaxSz ) {}
+        virtual ~DSAL( ) {}
 
- public:
-    DSAL(int _MaxSz) : DAL<Key, Data>(_MaxSz) {}
-    virtual ~DSAL(void) {}
+        bool insert( const Key &, const Data & );
+        bool remove( const Key &, Data & );
+        Key min( ) const;  // Recupera a menor chave do dicionário.
+        Key max( ) const;  // Recupera a maior chave do dicionário.
+        // Recupera em _y a chave sucessora a _x, se existir(true).
+        bool sucessor( const Key &, Key & ) const;
+        // Recupera em _y a chave antecessora a _x, se existir(true).
+        bool predecessor( const Key &, Key & ) const;
 
-    bool insert(const Key &_novaId, const Data &_novaInfo);
-    bool remove(const Key &_x, Data &);
-    Key min(void) const;  // Recupera a menor chave do dicionário.
-    Key max(void) const;  // Recupera a maior chave do dicionário.
-    // Recupera em _y a chave sucessora a _x, se existir(true).
-    bool sucessor(const Key &_x, Key &_y) const;
-    // Recupera em _y a chave antecessora a _x, se existir(true).
-    bool predecessor(const Key &_x, Key &_y) const;
-
- private:
-    Key _search(const Key &_x) const;  // Método de busca auxiliar.
+    private:
+        Key _search( const Key & ) const;  // Método de busca auxiliar.
 };
 
 #include "dal.inl" // This is to get "implementation" from another file.

@@ -13,12 +13,19 @@
 #include "dal.h"
 
 
-
+class MyKeyComparator {
+    public:
+        int operator ()( int lhs, int rhs ) const {
+            if ( lhs < rhs ) return -1;
+            else if ( lhs == rhs ) return 0;
+            else return 1; // lhs > rhs
+        }
+};
 
 int main ( )
 {
-    DAL< int, std::string  >  myList( 50 ); // Lista de no máximo 50 elementos.
-    DSAL< int, std::string > myList2( 50 );
+    DAL< int, std::string, MyKeyComparator >  myList( 50 ); // Lista de no máximo 50 elementos.
+    DSAL< int, std::string, MyKeyComparator > myList2( 50 );
 
     std::string retur;
     //auto x(0);
