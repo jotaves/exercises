@@ -40,7 +40,7 @@ class DAL
 
     public:
         DAL ( int );
-        int compare ( Key, Key );
+        int compare ( Key, Key ) const;
         virtual ~DAL ( ) { delete [] mpt_Data; };
         bool remove( const Key &, Data & );     // Remove da lista.
         bool search( const Key &, Data & ) const; // Busca publica.

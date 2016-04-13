@@ -22,7 +22,7 @@ DAL< Key,Data, KeyComparator >::DAL ( int _iMaxSz = SIZE ) :
 }
 
 template < typename Key, typename Data, typename KeyComparator >
-int DAL< Key,Data, KeyComparator >::compare( Key _x, Key _y ){
+int DAL< Key,Data, KeyComparator >::compare( Key _x, Key _y ) const{
     KeyComparator comparison;
     return comparison ( _x, _y );
 }
@@ -100,7 +100,7 @@ template< typename Key, typename Data, typename KeyComparator >
 Key DAL< Key, Data, KeyComparator >::max( ) const{
     Key _max = mpt_Data[ 0 ].id;
     for ( auto i(1) ; i < mi_Length ; i++ ){
-        if ( mpt_Data[ i ].id > _max ) _max = mpt_Data[ i ].id;
+        if ( compare( mpt_Data[ i ].id, _max ) == 1 ) _max = mpt_Data[ i ].id;
     }
     return _max;
 }
@@ -110,7 +110,7 @@ Key DAL< Key, Data, KeyComparator >::min( ) const{
         if ( mi_Length > 0 ){
             Key _min = mpt_Data[ 0 ].id;
             for ( auto i(1) ; i < mi_Length ; i++ ){
-                if ( mpt_Data[ i ].id < _min ) _min = mpt_Data[ i ].id;
+                if ( compare( mpt_Data[ i ].id, _min ) == -1 ) _min = mpt_Data[ i ].id;
             }
             return _min;
     }
@@ -124,10 +124,10 @@ bool DAL< Key, Data, KeyComparator >::sucessor( const Key & _x , Key & _y ) cons
     _y = max();
     
     for (auto i(0) ; i < mi_Length ; i++){
-        if ( mpt_Data[ i ].id < _y &&  mpt_Data[ i ].id > _x ) _y = mpt_Data[ i ].id;
+        if ( compare( mpt_Data[ i ].id, _y ) == -1 &&  compare( mpt_Data[ i ].id, _x ) == 1 ) _y = mpt_Data[ i ].id;
     }
     
-    if ( _y == _x ) return false;
+    if ( compare( _y, _x ) == 0 ) return false;
     
     return true;
 }
@@ -138,10 +138,10 @@ bool DAL< Key, Data, KeyComparator >::predecessor( const Key & _x , Key & _y ) c
     _y = min();
     
     for ( auto i(0) ; i < mi_Length ; i++ ){
-        if ( mpt_Data[ i ].id > _y &&  mpt_Data[ i ].id < _x ) _y = mpt_Data[ i ].id;
+        if ( compare( mpt_Data[ i ].id, _y ) == 1 && compare ( mpt_Data[ i ].id, _x ) == -1 ) _y = mpt_Data[ i ].id;
     }
     
-    if ( _y == _x ) return false;
+    if ( compare( _y, _x ) == 0 ) return false;
     
     return true;
 }
@@ -159,8 +159,8 @@ Key DSAL< Key, Data, KeyComparator >::_search( const Key & _x ) const{ // Metodo
     
         middle = ( left + right ) / 2;
         
-        if ( DAL< Key, Data, KeyComparator >::mpt_Data[ middle ].id == _x ) return middle;
-        else if ( DAL< Key, Data, KeyComparator >::mpt_Data[ middle ].id < _x ) left = middle + 1;
+        if ( DAL< Key, Data, KeyComparator >::compare( DAL< Key, Data, KeyComparator >::mpt_Data[ middle ].id, _x ) == 0 ) return middle;
+        else if ( DAL< Key, Data, KeyComparator >::compare( DAL< Key, Data, KeyComparator >::mpt_Data[ middle ].id, _x ) == -1 ) left = middle + 1;
         else right = middle - 1;
     }
 
@@ -187,9 +187,8 @@ bool DSAL< Key, Data, KeyComparator >::insert(const Key &_novaId, const Data &_n
         auto i( DAL< Key, Data, KeyComparator >::mi_Length-1 );
 
         // Como é ordenado, deve-se colocar o elemento na posição correta. Logo, alguns elementos são afastados.
-        while ( i > 0 and _novaId < DAL< Key, Data, KeyComparator >::mpt_Data[i-1].id ){
-            DAL< Key, Data, KeyComparator >::mpt_Data[ i ].id = DAL< Key, Data, KeyComparator >::mpt_Data[ i-1 ].id;
-            DAL< Key, Data, KeyComparator >::mpt_Data[ i ].info = DAL< Key, Data, KeyComparator >::mpt_Data[ i-1 ].info;
+        while ( i > 0 and DAL< Key, Data, KeyComparator >::compare( _novaId, DAL< Key, Data, KeyComparator >::mpt_Data[i-1].id ) == -1 ){
+            DAL< Key, Data, KeyComparator >::mpt_Data[ i ] = DAL< Key, Data, KeyComparator >::mpt_Data[ i-1 ];
             i--;
         }
 
@@ -213,8 +212,7 @@ bool DSAL< Key, Data, KeyComparator >::remove( const Key &_x, Data & _y ){
     _y = DAL< Key, Data, KeyComparator >::mpt_Data[ idx ].info;
     
     for ( auto i( idx ) ; i < DAL< Key, Data, KeyComparator >::mi_Length-1 ; i++ ){
-        DAL< Key, Data, KeyComparator >::mpt_Data[ i ].info = DAL< Key, Data, KeyComparator >::mpt_Data[ i+1 ].info;
-        DAL< Key, Data, KeyComparator >::mpt_Data[ i ].id = DAL< Key, Data, KeyComparator >::mpt_Data[ i+1 ].id;
+        DAL< Key, Data, KeyComparator >::mpt_Data[ i ] = DAL< Key, Data, KeyComparator >::mpt_Data[ i+1 ];
     }
     
     DAL< Key, Data, KeyComparator >::mi_Length--;

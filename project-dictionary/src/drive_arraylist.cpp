@@ -22,65 +22,62 @@ class MyKeyComparator {
         }
 };
 
-int main ( )
-{
-    DAL< int, std::string, MyKeyComparator >  myList( 50 ); // Lista de no máximo 50 elementos.
-    DSAL< int, std::string, MyKeyComparator > myList2( 50 );
 
-    std::string retur;
-    //auto x(0);
-    std::cout << "\n>>> myList: " << myList << std::endl;
-    std::cout << "\n>>> myList2: " << myList2 << std::endl;
+int main ( ){
+    #ifdef DAL_ON
+    DAL < int, std::string, MyKeyComparator > myList ( 50 );
+    #endif
+    #ifndef DAL_ON
+    DSAL < int, std::string, MyKeyComparator > myList ( 50 );
+    #endif
+
+    cout << ">>> Inserindo {2015003129 , \"Jack\"} " << endl ;
+    myList.insert( 2015003129, "Jack" );
+    cout << ">>> Inserindo {2014065190 , \"John\"} " << endl ;
+    myList.insert ( 2014065190, "John" );
+
+    // Variáveis para utilização nas funções
+    std::string returned_s;
+    int returned_i;
+
+    cout << "\n>>> Dictionary elements: \n";
+    cout << "   " << myList << "\n";
+
+    cout << "\n   Lower key in the dictionary: "<< myList.min() << ".\n";
+    cout << "   Highest key in the dictionary: " << myList.max() << ".\n";
     
-    myList.insert( 15, "dado 1" );
-    myList.insert( 2, "dado 2" );
-    myList.insert( 8, "dado 3" );
+    if ( myList.sucessor(2014065190, returned_i) )
+        cout << "\n   2014065190 successor is " << returned_i << ".\n";
+    else cout << "\n   2014065190 successor doesn't exist in the dictionary.\n";
 
-    myList2.insert( 2, "dado 1");
-    myList2.insert( 3, "dado 2");
-    myList2.insert( 1, "dado 3");
-    
-    /*
-    cout << endl << myList.max() << endl;
-    cout << endl << myList.min() << endl;
-    cout << endl << myList.predecessor(8, x) << endl;
-    cout << endl << x << endl;
-    cout << endl << myList.sucessor(8, x) << endl;
-    cout << endl << x << endl;
-    */
+    if ( myList.predecessor(2015003129, returned_i) )
+        cout << "   2015003129 ancestor is " << returned_i << ".\n";
+    else cout << "   2015003129 ancestor doesn't exist in the dictionary.\n";
 
+    #ifdef DAL_ON
+    // WORKS ONLY WITH DAL
+    if ( myList.search(2015003129, returned_s ) )
+        cout << "\n   2015003129 is " << returned_s << ".\n";
+    else cout << "\n  Sorry, 2015003129 wasn't found.\n";
 
-    cout << endl << myList.max() << endl;
-    cout << endl << myList2.max() << endl;
+    if ( myList.search(201500, returned_s ) )
+        cout << "   2015003129 is " << returned_s << ".\n";
+    else cout << "   Sorry, 201500 wasn't found.\n";
+    #endif
 
-    auto pre = 0, suc = 0;
+    if ( myList.remove(2014065190, returned_s) )
+        cout << "\n>>> " << returned_s << " was removed.\n";
+    else cout << "\n>>> Sorry, 2014065190 wasn't removed.\n";
 
-    myList2.predecessor( 2, pre );
-    myList2.sucessor( 2, suc );
+    if ( myList.remove(2015003129, returned_s) )
+        cout << ">>> " << returned_s << " was removed.\n";
+    else cout << ">>> Sorry, 2015003129 wasn't removed.\n";
 
-    cout << endl << pre << endl << suc << endl;
+    if( myList.remove(2015029, returned_s) )
+        cout << ">>> " << returned_s << "was removed.\n" << endl;
+    else cout << ">>> Sorry, 2015029 doesn't exist in the dictionary.\n";
 
-    std::cout << "\n>>> myList: " << myList << std::endl;
-    std::cout << "\n>>> myList2: " << myList2 << std::endl;
-    
-    myList.remove( 15, retur );
-    myList.remove( 2, retur );
-    myList.remove( 8, retur );
-    myList.remove( 9, retur );
-
-    myList2.remove( 2, retur);
-       std::cout << "\n>>> myList2: " << myList2 << std::endl; 
-    myList2.remove( 3, retur);
-       std::cout << "\n>>> myList2: " << myList2 << std::endl; 
-    myList2.remove( 1, retur);
-    
-    std::cout << "\n>>> myList: " << myList << std::endl;   
-    std::cout << "\n>>> myList2: " << myList2 << std::endl; 
-    //std::cout << retur;
-
-
-    std::cout << "\n>>> Normal ending...\n\n";
-
-    return EXIT_SUCCESS;
+    cout << "\n>>> Dictionary elements: \n";
+    cout << "   " << myList << "\n";    
+    return 0;
 }
-
