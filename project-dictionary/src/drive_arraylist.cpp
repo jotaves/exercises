@@ -1,4 +1,13 @@
 /*
+--> TO COMPILE WITH DSAL
+$ g++ -Wall -std=c++11 src/drive_arraylist.cpp -I include/ -o bin/drive_arraylist
+--> TO COMPILE WITH DAL
+$ g++ -Wall -std=c++11 src/drive_arraylist.cpp -I include/ -o bin/drive_arraylist -D DAL_ON
+--> TO EXECUTE
+$ ./bin/drive_arraylist 
+*/
+
+/*
  * Test aaplication for the Dictionary with Array Lits or DAL.
  *
  * Try to test as many DAL's methods in varying situations
@@ -7,6 +16,7 @@
  * */
 #include <iostream>
 #include <sstream>
+
 #include <cmath>
 #include <functional>
 

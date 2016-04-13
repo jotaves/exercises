@@ -1,6 +1,3 @@
-// g++ -Wall -std=c++11 -I include/ src/drive_arraylist.cpp -o bin/drive_arraylist
-// ./bin/drive_arraylist 
-
 /**
  * DAL class implementation.
  *
