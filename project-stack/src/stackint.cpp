@@ -16,3 +16,13 @@ void StackInt::push( int _newVal ){
 void StackInt::resize( int _capacity){
 	/* Needs to be done */
 }
+
+int StackInt::pop( void ){
+	/* Needs to be done */
+	return 0;
+}
+
+int StackInt::top( void ) const{
+	/* Needs to be done */
+	return 0;
+}
