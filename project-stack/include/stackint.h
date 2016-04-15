@@ -2,6 +2,7 @@
 #define _STACKINT_H_
 
 #include <iostream>
+using namespace std;
 
 class StackInt{
 	public:
@@ -14,6 +15,7 @@ class StackInt{
 		inline void clear( void ) { topo = 0; }
 
 	private:
+		void resize( int );
 		int *P;
 		int topo;
 		int capacity;
