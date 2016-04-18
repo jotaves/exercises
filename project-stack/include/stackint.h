@@ -6,7 +6,7 @@ using namespace std;
 
 class StackInt{
 	public:
-		StackInt( int _size = 10 );
+		StackInt( int );
 		~StackInt( );
 		void push( int );
 		int pop( void );
@@ -15,7 +15,7 @@ class StackInt{
 		inline void clear( void ) { topo = 0; }
 
 	private:
-		void resize( int );
+		void resize( );
 		int *P;
 		int topo;
 		int capacity;

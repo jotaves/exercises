@@ -1,28 +1,35 @@
 #include "stackint.h"
 
-StackInt::StackInt( int _size  ) : P(new int( _size )), topo(0), capacity( _size )
+#include <stdexcept>
+
+StackInt::StackInt( int _size = 10 ) : P(new int[ _size ]), topo(0), capacity( _size )
 { /*empty*/ }
 
 StackInt::~StackInt(){
 	delete [] P;
 }
 
-void StackInt::push( int _newVal ){
-	if ( topo == capacity ) // Não há mais espaço.
-		resize ( 2*capacity );
-	P[topo++] = _newVal;
+void StackInt::resize(){
+	capacity = ( capacity * 2 ) + 1;
+	int *Q = new int[ capacity ];
+	for( auto i(0) ; i < topo ; i++ ){
+		Q[i] = P[i];
+	}
+	delete [] P;
+	P = Q;
 }
 
-void StackInt::resize( int _capacity){
-	/* Needs to be done */
+void StackInt::push( int _newVal ){
+	if ( topo == capacity ) // Não há mais espaço.
+		resize();
+	P[ topo++ ] = _newVal;
 }
 
 int StackInt::pop( void ){
-	/* Needs to be done */
-	return 0;
+	if ( empty() ) throw std::length_error("[pop()]: size == 0");
+	return P[ --topo ];
 }
 
 int StackInt::top( void ) const{
-	/* Needs to be done */
-	return 0;
+	return P[ topo-1 ];
 }
