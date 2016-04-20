@@ -25,7 +25,7 @@ class StackAr : public AbsStack< Object > {
                 _os << "{" << _oList.P[ i ] << "} ";
             _os << "]";
             return _os;
-        }		
+        }
 
 	private:
 		Object *P;
