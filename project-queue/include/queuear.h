@@ -21,7 +21,7 @@ class QueueAr {
 		void makeEmpty ( void );
         inline friend std::ostream &operator<< (std::ostream& _os, const QueueAr<Object>& _oList )
         {
-        	if ( _oList.back == -1 ) { _os << "{ }"; return _os; } // olocar erro.
+        	if ( _oList.back == -1 ) { _os << "[ ]"; return _os; } // olocar erro.
         	if ( _oList.back >= _oList.front ){
             _os << "[ ";
 	            for( int i(_oList.front) ; i <= _oList.back ; ++i )
