@@ -4,6 +4,8 @@ Para compilar e executar com **DSAL**:
 
 `$ g++ -Wall -std=c++11 src/drive_arraylist.cpp -I include/ -o bin/drive_arraylist`
 
+`$ ./bin/drive_arraylist`
+
 Para compilar e executar com **DAL**:
 
 `$ g++ -Wall -std=c++11 src/drive_arraylist.cpp -I include/ -o bin/drive_arraylist -D DAL_ON`

@@ -1,5 +1,0 @@
-# TO COMPILE #
-`g++ -Wall -std=c++11 src/queuear_drive.cpp -o bin/queuear_drive -I include/`
-
-# TO EXECUTE #
-`./bin/queuear_drive`
