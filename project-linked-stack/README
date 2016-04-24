@@ -1,0 +1,2 @@
+Para compilar: g++ -Wall -std=c++11 src/drive_les_v1.cpp src/les_v1.cpp -o bin/drive_les_v1 -I include/
+Para execurar: ./bin/drive_les_v1
