@@ -189,20 +189,56 @@ SNPtr find( SNPtr _pAIL, int _targetVal )
 
 bool insert( SNPtr & _pAIL, SNPtr _pAnte, int _newVal )
 {
-    if ( _pAnte == NULL ){
-        if ( pushFront( _pAIL, _newVal ) ) return true;
-        else return false;
+    if ( _pAnte == NULL ){ // sem elementos na stack
+        return pushFront( _pAIL, _newVal );
     }
     else{
-        if ( pushFront( _pAnte->mpNext, _newVal ) ) return true;
-        else return false;
+        SNPtr save = _pAIL;
+        while( _pAIL != _pAnte and _pAIL != NULL ){ // procura por elemento determinado
+            _pAIL = _pAIL->mpNext;
+        }
+        if ( _pAIL == _pAnte ){
+            pushFront( _pAIL->mpNext, _newVal );
+        }
+        _pAIL = save;
+        if ( _pAIL == NULL ) return false;
+        return true;
     }
 }
 
 
 bool remove( SNPtr & _pAIL, SNPtr _pAnte, int & _retrievedVal )
 {
-    return true;
+    if( _pAIL == NULL ) return false; // stack vazia
+
+    if ( _pAnte == NULL ){ // retirar o primeiro elemento
+            _retrievedVal = _pAIL->miData;
+            SNPtr save = _pAIL;
+            
+            delete [] _pAIL;        
+            _pAIL = save->mpNext;
+
+            return true;
+    }
+    else { // retirar elemento em um lugar determinado da stack
+        SNPtr save1 = _pAIL;
+        while( _pAIL != _pAnte and _pAIL != NULL ){ // procura por elemento determinado
+            _pAIL = _pAIL->mpNext;
+        }
+
+        // saída do while: _pAIL == _pAnte ou _pAIL == NULL
+
+        if ( _pAIL == _pAnte ){ // elemento existe na stack
+            _pAIL = _pAIL->mpNext; // _pAIL é o elemento que será deletado e _pAnte o anterior
+            _pAnte->mpNext = _pAIL->mpNext;
+
+            _retrievedVal = _pAIL->miData;
+            delete [] _pAIL;           
+        }
+        _pAIL = save1;
+        if ( _pAIL == NULL ) return false; // elemento não existe na stack
+        return true;
+    }
 }
 
 

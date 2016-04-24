@@ -11,14 +11,11 @@ int main ( void ) {
     SNPtr pHead = NULL;// nullptr;
     SNPtr example = new SLLNode;
 
-    int _front, _back;
-
-    cout << "Is empty:" << empty(pHead) << "\n\n";
-    
-    cout << "Adding from 1 to 3 at front." << std::endl;
+    int retrn;
     print(pHead);
-    cout << "\n";
-
+    cout << " Is empty: " << empty(pHead) << "\n\n";
+    
+    cout << "Adding from 1 to 3 at front." << "\n";
     pushFront( pHead, 1 );   
     print(pHead);
     cout << "\n";
@@ -31,23 +28,25 @@ int main ( void ) {
     print(pHead);
     cout << "\n\n";
 
-	cout << "Adding 0 at back." << "\n";
+	cout << "Adding 0 and -1 at back." << "\n";
     pushBack( pHead, 0 );
     print(pHead);
-    cout << "\n\n";
+    cout << "\n";
 
-    popFront( pHead, _front );
-    cout << "Pop front: " << _front << std::endl;
+    pushBack( pHead, -1 );
+    print(pHead);
+    cout << "\nLength: " << length(pHead) << "\n\n";
+
+    popFront( pHead, retrn );
+    cout << "Pop front: " << retrn << std::endl;
     print(pHead);
     cout << "\n\n";
 
-	popBack( pHead, _back );
-    cout << "Pop back: " << _back << "\n";
+	popBack( pHead, retrn );
+    cout << "Pop back: " << retrn << "\n";
     print(pHead);
     cout << "\n\n";
-    
-    clear(pHead);
-    
+
     cout << "Searching from 0 to 3: \n";
     int toFind = 0;
 	while ( toFind < 4 ){
@@ -60,31 +59,60 @@ int main ( void ) {
 		++toFind;
 	}
 	cout << "\n";
+   	cout << "Clear: \n";
+    clear(pHead);
 
     print(pHead);
     cout << "\n";
 
     cout << "Length: " << length(pHead) << "\n";
 
-    front(pHead, _front);
-    back(pHead, _back);
-
-    cout << "Front: " << _front << std::endl << "Back: " << _back << std::endl;
+    if ( front(pHead, retrn) ){
+    	cout << "Front: " << retrn << std::endl;
+    } 
+    if ( back(pHead, retrn) ){
+    	cout << "Back: " << retrn << std::endl;
+    }
 
     cout << "Is empty: " << empty(pHead) << std::endl;
 
-    cout << "\nInsert( pHead, find( pHead, 1 ), 3 ): \n";
-    insert( pHead, find( pHead, 1 ), 3 );
+    cout << "\nInsert( pHead, NULL, 3 ): \n";
+    insert( pHead, NULL, 3 );
     print(pHead);
+    cout << "\n";
 
-	cout << "\n\nInsert( pHead, NULL, 4 ): \n";
-    insert( pHead, NULL, 4 );
+	cout << "\nInsert( pHead, find( pHead, 3 ), 5 ): \n";
+    insert( pHead, find( pHead, 3 ), 5 );
     print(pHead);
+    cout << "\n";
 
-    cout << "\nInsert( pHead, find( pHead, 1 ), 9 ): \n";
-    insert( pHead, find( pHead, 1 ), 9 );
-    print(pHead);    
+    cout << "\nInsert( pHead, find( pHead, 3 ), 4 ): \n";
+    insert( pHead, find( pHead, 3 ), 4 );
+    print(pHead);
+    cout << "\n";
 
-    cout << "\n\n>>> Normal exiting...\n";
+
+    cout << "\nRemove( pHead, find( pHead, 3 ), retrn ):\n";
+    if ( remove( pHead, find( pHead, 3 ), retrn ) ) cout << retrn << " deleted\n";
+    print(pHead);
+    cout << "\n";    
+
+    cout << "\nRemove( pHead, NULL, retrn ): \n";
+    if ( remove( pHead, NULL, retrn ) ) cout << retrn << " deleted\n";
+    print(pHead);
+    cout << "\n";
+
+    cout << "\nRemove( pHead, find( pHead, 4 ), retrn ): \n";
+    if ( remove( pHead, find( pHead, 4 ), retrn ) ) cout << retrn << " deleted\n"; 
+    print(pHead);
+    cout << "\n";
+
+    cout << "\nRemove( pHead, find( pHead, 4 ), retrn ): \n";
+    if (remove( pHead, find( pHead, 4 ), retrn ) ) cout << "\n" << retrn << " deleted\n";
+    else cout << "Nothing deleted\n";
+    print(pHead);
+    cout << "\n";
+
+    cout << "\n>>> Normal exiting...\n";
     return EXIT_SUCCESS;
 }
