@@ -158,7 +158,7 @@ bool popBack( SNPtr & _pAIL, int& _retrievedVal )
     if ( _pAIL == NULL ) return false;
 
     SNPtr save = _pAIL; // Salva endereço do head.
-    SNPtr antepenult = NULL; // Salva endereço do antepenúltimo elemento.
+    SNPtr antepenult; // Salva endereço do antepenúltimo elemento.
 
     while ( _pAIL->mpNext != NULL ){
         antepenult = _pAIL;

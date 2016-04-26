@@ -53,7 +53,7 @@ int main ( void ) {
 	   	example = find( pHead, toFind );
 	    
 	    if (example != NULL){
-	    	cout << example->miData << " is " << toFind << " predecessor.\n";
+	    	cout << example->miData << " is " << toFind << " ancestor.\n";
 	    }
 	    else cout << toFind << " not found/is the first element or stack is empty." << "\n";
 		++toFind;
