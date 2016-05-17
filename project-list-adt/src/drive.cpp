@@ -1,3 +1,5 @@
+// g++ -Wall -std=c++11 src/drive.cpp -o bin/drive -I include/
+// ./bin/drive
 #include <iostream>
 #include <assert.h>
 
@@ -28,6 +30,7 @@ int main( void ){
 	assert(myList.empty() == true);
 
 	// Pushing 4 elements (4, 3, 2, 1)
+	
 	myList.push_back(4);
 	assert(myList.back() == 4);
 	myList.push_back(3);
@@ -39,5 +42,22 @@ int main( void ){
 
 	assert(myList.size() == 4);
 
+	myList.pop_back();
+	assert(myList.back() == 2);
+	assert(myList.size() == 3);
+	myList.pop_back();
+	assert(myList.back() == 3);
+	assert(myList.size() == 2);
+	myList.push_back(1);
+	assert(myList.back() == 1);
+
+	myList.clear();
+	assert(myList.size() == 0);
+
+	myList.pop_back();
+
+	myList.push_back(1);
+	assert(myList.back() == 1);
+	
 	return 0;
 }
