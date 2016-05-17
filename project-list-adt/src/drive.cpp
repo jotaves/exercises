@@ -1,40 +1,43 @@
-#include "Vector.h"
 #include <iostream>
+#include <assert.h>
+
+#include "vector.h"
 
 using namespace std;
 
 int main( void ){
 	Vector < int > myList;
 
-	cout << "Is empty: " << myList.empty() << "\n";
+	assert(myList.empty() == true);
+	assert(myList.size() == 0);
 
-	cout << "\nList size: " << myList.size() << "\n";
-
-	cout << "\nPushing back 1, 2 and 3.\n";
-
+	// Pushing 3 elements (1, 2, 3)
 	myList.push_back(1);
-	cout << "\n" << myList.back() << "\n";
+	assert(myList.back() == 1);
 	myList.push_back(2);
-	cout << "\n" << myList.back() << "\n";
+	assert(myList.back() == 2);
 	myList.push_back(3);
-	cout << "\n" << myList.back() << "\n";
+	assert(myList.back() == 3);
 
 
-	cout << "\nIs empty: " << myList.empty() << "\n";
+	assert(myList.empty() == false);
+	assert(myList.size() == 3);
 
-	cout << "\nList size: " << myList.size() << "\n";
-
+	// Clearing vector
 	myList.clear();
+	assert(myList.empty() == true);
 
-	myList.push_back(1);
-	cout << "\n" << myList.back() << "\n";
-	myList.push_back(2);
-	cout << "\n" << myList.back() << "\n";
+	// Pushing 4 elements (4, 3, 2, 1)
+	myList.push_back(4);
+	assert(myList.back() == 4);
 	myList.push_back(3);
+	assert(myList.back() == 3);
+	myList.push_back(2);
+	assert(myList.back() == 2);
+	myList.push_back(1);
+	assert(myList.back() == 1);
 
-	cout << "\n" << myList.back() << "\n";
-
-	cout << "\nList size: " << myList.size() << "\n";
+	assert(myList.size() == 4);
 
 	return 0;
 }
