@@ -10,6 +10,7 @@ template < typename T >
 class Vector{
 public:
 	Vector< T > ( int _size = 1 ) : vSize( _size ), vector( new T[vSize] ){/* Empty */}
+	~Vector(){/* Empty */};
 	size_type size() const;
 	void clear();
 	bool empty();

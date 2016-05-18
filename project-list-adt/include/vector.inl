@@ -5,7 +5,9 @@ size_type Vector< T >::size() const{
 
 template < typename T >
 void Vector< T >::clear(){
-	vector = nullptr;
+	for (size_type i(lastPos); i >= 0; i--){
+		(&vector[i])->~T();
+	}
 	vSize = 0;
 	lastPos =  0;
 }
@@ -38,8 +40,8 @@ void Vector< T >::push_back( const T & x ){
 
 template < typename T >
 void Vector< T >::pop_back(){
-	if(lastPos == 0) vector = nullptr;
-	else lastPos--;
+	(&vector[lastPos])->~T();
+	if (lastPos != 0) lastPos--;
 }
 
 template < typename T >
