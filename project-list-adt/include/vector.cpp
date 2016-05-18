@@ -1,3 +1,12 @@
+/*!
+ *  @file vector.inl
+ *  @brief Implementações do vetor
+ *  @copyright Copyright &copy; 2016. Todos os direitos reservados.
+ *
+ *  @Arquivo com as implementações do vecotr ADT.
+ */
+
+/* Common functions */
 template < typename T >
 size_type Vector< T >::size() const{
 	return lastPos;
@@ -5,11 +14,9 @@ size_type Vector< T >::size() const{
 
 template < typename T >
 void Vector< T >::clear(){
-	for (size_type i(lastPos-1); i >= 0; i--){
-		(&vector[i])->~T();
+	while (lastPos > 0){
+		(&vector[--lastPos])->~T();
 	}
-	vSize = 0;
-	lastPos =  0;
 }
 
 template < typename T >
@@ -18,23 +25,11 @@ bool Vector< T >::empty(){
 }
 
 template < typename T >
-const void Vector< T >::multiply(){
-	auto newSize(0u);
-	if (vSize == 0) newSize = 1;
-	else newSize = vSize * 2;
-
-	std::unique_ptr<T[]> _vector (new T[newSize]);
-	for(auto i(0u); i < lastPos; i++){
-		_vector[i] = vector[i];
-	}
-
-	vector = std::move(_vector);
-	vSize = newSize;
-}
-
-template < typename T >
 void Vector< T >::push_back( const T & x ){
-	if(lastPos == vSize) multiply();
+	if(lastPos == _capacity){
+		if (_capacity == 0) reserve(1);
+		else reserve(_capacity*2);
+	}
 	vector[lastPos++] = x;
 }
 
@@ -51,5 +46,101 @@ const T & Vector< T >::back() const{
 
 template < typename T >
 void Vector< T >::assign( const T & x ){
+	lastPos = 0;
+	while(lastPos < _capacity){
+		vector[lastPos++] = x;
+	}
+}
+
+/* Exclusive functions */
+template < typename T >
+T & Vector< T >::operator[]( size_type idx ){
+	return vector[idx];
+}
+
+template < typename T >
+T & Vector< T >::at ( size_type idx ){
+	if(idx < 0 or idx > lastPos-1){
+		throw std::out_of_range ("[Vector< T >at]: index used is out of range.");
+	}
+	else return vector[idx];
+}
+
+template < typename T >
+size_type Vector< T >::capacity() const{
+	return _capacity;
+}
+
+template < typename T >
+const void Vector< T >::reserve(size_type newSize){
+	std::unique_ptr<T[]> _vector (new T[newSize]);
 	
+	for(size_type i(0); i < lastPos; i++){
+		_vector[i] = vector[i];
+	}
+
+	vector = std::move(_vector);
+	_capacity = newSize;
+}
+
+/* Return iterators */
+template < typename T >
+typename Vector< T >::const_iterator Vector< T >::cbegin() const{
+	return const_iterator(&vector[0]);
+}
+// não, o primeiro é um objeto que está dentro da classe Vector (T é o template, pode ser int, pode ser long int etc.) e é do tipo const iterator, que é o que a função vai retornar. 
+// a segunda é a declaração da função, que está na classe Vector e possui o nome cbegin valeu, nao apaga isso
+template < typename T >
+typename Vector< T >::const_iterator Vector< T >::cend() const{
+	return const_iterator(&vector[lastPos-1]);
+}
+
+template < typename T >
+typename Vector< T >::iterator Vector< T >::begin() const{
+	return iterator(&vector[0]);
+}
+
+template < typename T >
+typename Vector< T >::iterator Vector< T >::end() const{
+	return iterator(&vector[lastPos-1]);
+}
+
+/* Iterators classes functions */
+template < typename T >
+const T & Vector< T >::const_iterator::operator* () const{
+	return *p;
+}
+
+template < typename T >
+typename Vector< T >::const_iterator & Vector< T >::const_iterator::operator++ (){
+	++p;
+	return *this;
+}
+
+template < typename T >
+typename Vector< T >::const_iterator Vector< T >::const_iterator::operator++ (int){
+	const_iterator np (p++);
+	return np;
+}
+
+template < typename T >
+typename Vector< T >::const_iterator & Vector< T >::const_iterator::operator-- (){
+	p--;
+	return *this;
+}
+
+template < typename T >
+typename Vector< T >::const_iterator Vector< T >::const_iterator::operator-- (int){
+	const_iterator np (p--);
+	return np;
+}
+
+template < typename T >
+bool Vector< T >::const_iterator::operator == (const const_iterator & rhs) const{
+	return p == rhs.p;
+}
+
+template < typename T >
+bool Vector< T >::const_iterator::operator != (const const_iterator & rhs) const{
+	return p != rhs.p;
 }
