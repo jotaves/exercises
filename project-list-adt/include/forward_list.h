@@ -11,6 +11,6 @@ class Forward_List{
 
 };
 
-#include "forward_list.inl"
+#include "forward_list.cpp"
 
 #endif

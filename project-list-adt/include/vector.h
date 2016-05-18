@@ -17,6 +17,7 @@ public:
 	void push_back( const T & x );		
 	void pop_back();
 	const T & back() const;
+	void assign( const T & x );
 	const void multiply();
 
 private:
@@ -26,6 +27,6 @@ private:
 
 };
 
-#include "vector.inl"
+#include "vector.cpp"
 
 #endif

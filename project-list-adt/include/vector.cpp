@@ -5,7 +5,7 @@ size_type Vector< T >::size() const{
 
 template < typename T >
 void Vector< T >::clear(){
-	for (size_type i(lastPos); i >= 0; i--){
+	for (size_type i(lastPos-1); i >= 0; i--){
 		(&vector[i])->~T();
 	}
 	vSize = 0;
@@ -19,12 +19,12 @@ bool Vector< T >::empty(){
 
 template < typename T >
 const void Vector< T >::multiply(){
-	auto newSize(0);
+	auto newSize(0u);
 	if (vSize == 0) newSize = 1;
 	else newSize = vSize * 2;
 
 	std::unique_ptr<T[]> _vector (new T[newSize]);
-	for(auto i(0); i < vSize; i++){
+	for(auto i(0u); i < lastPos; i++){
 		_vector[i] = vector[i];
 	}
 
@@ -40,11 +40,16 @@ void Vector< T >::push_back( const T & x ){
 
 template < typename T >
 void Vector< T >::pop_back(){
-	(&vector[lastPos])->~T();
-	if (lastPos != 0) lastPos--;
+	if (lastPos == 0) (&vector[lastPos])->~T();
+	else (&vector[--lastPos])->~T();
 }
 
 template < typename T >
 const T & Vector< T >::back() const{
 	return vector[lastPos-1];
+}
+
+template < typename T >
+void Vector< T >::assign( const T & x ){
+	
 }

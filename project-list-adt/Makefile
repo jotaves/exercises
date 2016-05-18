@@ -5,4 +5,6 @@ run:
 clean:
 	rm bin/drive
 mleak:
-	valgrind --tool=memcheck ./bin/drive
+	valgrind --tool=memcheck --leak-check=yes ./bin/drive
+mlfull:
+	valgrind --leak-check=full --show-leak-kinds=all ./bin/drive
