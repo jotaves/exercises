@@ -21,22 +21,57 @@ public:
 	public:
 		const_iterator();
 		
+		/**
+     	 * @brief 
+     	 * @param 
+     	 * @return 
+     	 */
 		const T & operator* () const;
 		
 		 //++it
+		 /**
+	      * @brief 
+	      * @param 
+	      * @return 
+	      */
 		const_iterator & operator++ ();
 		
 		 //it++
+		 /**
+	      * @brief 
+	      * @param 
+	      * @return 
+	      */
 		const_iterator operator++ (int);
 		
 		 //--it
+		 /**
+	      * @brief 
+	      * @param 
+	      * @return 
+	      */
 		const_iterator & operator-- ();
 		
 		 //it--
+		 /**
+	      * @brief 
+	      * @param 
+	      * @return 
+	      */
 		const_iterator operator-- (int);
 		
+		/**
+	     * @brief 
+	     * @param 
+	     * @return 
+	     */
 		bool operator == (const const_iterator & rhs) const;
 		
+		/**
+	     * @brief 
+	     * @param 
+	     * @return 
+	     */
 		bool operator != (const const_iterator & rhs) const;
 		
 	private:
@@ -130,10 +165,32 @@ public:
      */
 	const void reserve(size_type newSize);
 	
+	
 	/* Return iterators */
+	
+	
+	/**
+     * @brief Retorna um const_iterator para o primeiro elemento do vector
+     * @return Um const_iterator apontando para o primeiro elemento do vector
+     */
     const_iterator cbegin() const;
+    
+    /**
+     * @brief Retorna um const_iterator para o ponto final da lista
+     * @return Um const_iterator apontando para o ponto final na lista
+     */
     const_iterator cend() const;
+    
+    /**
+     * @brief Retorna um iterator para o primeiro elemento do vector
+     * @return Um iterator apontando para o primeiro elemento do vector
+     */
     iterator begin() const;
+    
+    /**
+     * @brief Retorna um iterator para o ponto final da lista
+     * @return Um iterator apontando para o ponto final na lista
+     */
     iterator end() const;
 	
 private:

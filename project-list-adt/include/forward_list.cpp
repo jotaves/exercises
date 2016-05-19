@@ -36,7 +36,7 @@ bool Forward_List<T>::empty(){
 template < typename T >
 void Forward_List<T>::push_back( const T & x ){
    if ( m_head->next == m_tail ){
-        pushFront(x);
+        push_front(x);
     }
     else{
         Node *aux = m_head;
@@ -54,10 +54,8 @@ void Forward_List<T>::push_back( const T & x ){
 }
 
 template < typename T >
-void Forward_List<T>::pop_back(){
-    if ( m_head->next == m_tail ){
-        return;   
-    }
+T Forward_List<T>::pop_back(){
+    if ( m_head->next == m_tail ) throw std::out_of_range("[pop_back()]: Out of range.");
     
     Node *aux = m_head;
     
@@ -68,10 +66,11 @@ void Forward_List<T>::pop_back(){
     Node *save = aux->next; // Salvando o último
     
     aux->next = aux->next->next;
-
+    
+    auto out = save->data;
     delete save;
     m_size--;
-
+    return out;
 }
 
 template < typename T >
@@ -111,10 +110,12 @@ void Forward_List<T>::push_front( const T & x ){
 }
 
 template < typename T >
-void Forward_List<T>::pop_front(){
-    if (m_head->next == m_tail) return;
+T Forward_List<T>::pop_front(){
+    if ( m_head->next == m_tail ) throw std::out_of_range("[pop_front()]: Out of range.");
     Node *save = m_head->next;
     m_head->next = save->next;
+    auto out = save->data;
     delete save;
     m_size--;
+    return out;
 }

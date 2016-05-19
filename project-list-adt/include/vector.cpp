@@ -88,8 +88,7 @@ template < typename T >
 typename Vector< T >::const_iterator Vector< T >::cbegin() const{
 	return const_iterator(&vector[0]);
 }
-// não, o primeiro é um objeto que está dentro da classe Vector (T é o template, pode ser int, pode ser long int etc.) e é do tipo const iterator, que é o que a função vai retornar. 
-// a segunda é a declaração da função, que está na classe Vector e possui o nome cbegin valeu, nao apaga isso
+
 template < typename T >
 typename Vector< T >::const_iterator Vector< T >::cend() const{
 	return const_iterator(&vector[lastPos-1]);

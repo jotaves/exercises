@@ -15,7 +15,7 @@
 // g++ -Wall -std=c++11 src/drive.cpp -o bin/drive -I include/
 // ./bin/drive
 #include <iostream>
-#include <assert.h>
+#include <cassert>
 
 #include "vector.h"
 #include "forward_list.h"
@@ -126,10 +126,24 @@ int main( void ){
 	
 	
 	// Forward_List
-	Forward_List <int> list();
+	Forward_List<int> list;
 	
 	assert(list.size() == 0);
+	assert(list.empty() == true);
 	
-	//list.clear();
+	list.push_front(2);
+	assert (list.back() == 2);
+	list.push_front(1);
+	assert (list.back() == 2);
+	list.push_back(3);
+	assert (list.back() == 3);
+	list.push_back(4);
+	assert (list.back() == 4);
+	
+	assert (list.pop_front() == 1);
+	assert (list.pop_back() == 4);
+	assert (list.pop_front() == 2);
+	assert (list.pop_back() == 3);
+	assert (list.size() == 0);
 	return 0;
 }
