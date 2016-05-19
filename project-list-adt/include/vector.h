@@ -193,6 +193,6 @@ private:
 
 };
 
-#include "vector.cpp"
+#include "vector.inl"
 
 #endif

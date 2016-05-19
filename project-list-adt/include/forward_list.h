@@ -96,6 +96,6 @@ class Forward_list{
 	const T & front () const;
 };
 
-#include "forward_list.cpp"
+#include "forward_list.inl"
 
 #endif

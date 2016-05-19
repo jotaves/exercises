@@ -11,6 +11,6 @@ class List{
 
 };
 
-#include "list.cpp
+#include "list.inl"
 
 #endif
