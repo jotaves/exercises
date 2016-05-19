@@ -1,24 +1,24 @@
 template < typename T >
-Forward_List<T>::Forward_List (){
+Forward_list<T>::Forward_list (){
     m_tail = new Node (T(), nullptr);    
     m_head = new Node( T(), m_tail);
     m_size = 0;
 }
 
 template < typename T >
-Forward_List<T>::~Forward_List(){
+Forward_list<T>::~Forward_list(){
     clear();
     delete m_head;
     delete m_tail;
 }
 
 template < typename T >
-size_type Forward_List<T>::size() const{
+size_type Forward_list<T>::size() const{
     return m_size;
 }
 
 template < typename T >
-void Forward_List<T>::clear(){
+void Forward_list<T>::clear(){
     while ( m_head->next != m_tail ){
             Node *save = m_head->next;
             
@@ -29,12 +29,12 @@ void Forward_List<T>::clear(){
 }
 
 template < typename T >
-bool Forward_List<T>::empty(){
+bool Forward_list<T>::empty(){
     return m_size == 0;
 }
 
 template < typename T >
-void Forward_List<T>::push_back( const T & x ){
+void Forward_list<T>::push_back( const T & x ){
    if ( m_head->next == m_tail ){
         push_front(x);
     }
@@ -54,8 +54,8 @@ void Forward_List<T>::push_back( const T & x ){
 }
 
 template < typename T >
-T Forward_List<T>::pop_back(){
-    if ( m_head->next == m_tail ) throw std::out_of_range("[pop_back()]: Out of range.");
+T Forward_list<T>::pop_back(){
+    if ( m_head->next == m_tail ) throw std::out_of_range("[pop_back()]: List size is 0.");
     
     Node *aux = m_head;
     
@@ -74,7 +74,7 @@ T Forward_List<T>::pop_back(){
 }
 
 template < typename T >
-const T & Forward_List<T>::back() const{
+const T & Forward_list<T>::back() const{
     Node *aux = m_head;
     while(aux->next != m_tail){
         aux = aux->next;
@@ -83,7 +83,7 @@ const T & Forward_List<T>::back() const{
 }
 
 template < typename T >
-void Forward_List<T>::assign( const T & x ){
+void Forward_list<T>::assign( const T & x ){
     Node *aux = m_head;
     while(aux->next != m_tail){
         aux = aux->next;
@@ -93,7 +93,7 @@ void Forward_List<T>::assign( const T & x ){
 
 // Exclusive
 template < typename T >
-void Forward_List<T>::push_front( const T & x ){
+void Forward_list<T>::push_front( const T & x ){
     Node * start;
     try{
         start = new Node;
@@ -110,12 +110,17 @@ void Forward_List<T>::push_front( const T & x ){
 }
 
 template < typename T >
-T Forward_List<T>::pop_front(){
-    if ( m_head->next == m_tail ) throw std::out_of_range("[pop_front()]: Out of range.");
+T Forward_list<T>::pop_front(){
+    if ( m_head->next == m_tail ) throw std::out_of_range("[pop_front()]: List size is 0.");
     Node *save = m_head->next;
     m_head->next = save->next;
     auto out = save->data;
     delete save;
     m_size--;
     return out;
+}
+
+template < typename T >
+const T & Forward_list<T>::front() const{
+    return m_head->next->data;
 }

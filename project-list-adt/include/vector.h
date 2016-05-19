@@ -20,57 +20,50 @@ public:
 	class const_iterator{
 	public:
 		const_iterator();
-		
-		/**
-     	 * @brief 
-     	 * @param 
-     	 * @return 
+		/** 
+     	 * @brief Sobrecarrega o operador *
+     	 * @return O elemento na posição 
      	 */
-		const T & operator* () const;
+		const T & operator* () const; // faz com interrogação entao, melhor q nada
 		
-		 //++it
 		 /**
-	      * @brief 
-	      * @param 
-	      * @return 
+	      * @brief Sobrecarrega o operador ++
+	      * @return O iterador incrementado
 	      */
 		const_iterator & operator++ ();
 		
 		 //it++
 		 /**
-	      * @brief 
-	      * @param 
-	      * @return 
+	      * @brief Sobrecarrega o operador ++
+	      * @return O iterador antes de ser incrementado
 	      */
 		const_iterator operator++ (int);
 		
 		 //--it
 		 /**
-	      * @brief 
-	      * @param 
-	      * @return 
+	      * @brief Sobrecarrega o operador --
+	      * @return O iterador decrementado
 	      */
 		const_iterator & operator-- ();
 		
 		 //it--
 		 /**
-	      * @brief 
-	      * @param 
-	      * @return 
+	      * @brief Sobrecarrega o operador --
+	      * @return O iterador antes de ser decrementado
 	      */
 		const_iterator operator-- (int);
 		
 		/**
-	     * @brief 
-	     * @param 
-	     * @return 
+	     * @brief Sobrecarrega o operador ==
+	     * @param rhs Iterador a ser comparado
+	     * @return True, se for igual ao iterador, falso se não
 	     */
 		bool operator == (const const_iterator & rhs) const;
 		
 		/**
-	     * @brief 
-	     * @param 
-	     * @return 
+	     * @brief Sobrecarrega o operador !=
+	     * @param rhs Iterador a ser comparado
+	     * @return True, se for diferente do iterador, falso se não
 	     */
 		bool operator != (const const_iterator & rhs) const;
 		

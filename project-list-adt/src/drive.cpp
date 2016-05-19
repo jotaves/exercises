@@ -1,5 +1,5 @@
 /*!
- *  @mainpage TAD List
+ *  @mainpage TAD myFList
  *  @authors João Victor Bezerra Barboza, Carlos Vincius Fernanes Rodrigues
  *  @date Maio, 2016
  *  @copyright Copyright &copy; 2016. Todos os direitos reservados.
@@ -8,12 +8,9 @@
  *  @file drive.cpp
  *  @brief Driver File
  *
- *  Arquivo que dá inicio à todo o código, ramificando para list, foward list ou vector.
+ *  Arquivo que dá inicio à todo o código, ramificando para myFList, foward myFList ou vector.
  */
 
-
-// g++ -Wall -std=c++11 src/drive.cpp -o bin/drive -I include/
-// ./bin/drive
 #include <iostream>
 #include <cassert>
 
@@ -124,26 +121,61 @@ int main( void ){
 	assert(myVector.at(myVector.capacity()-1) == 1);
 	assert(myVector.capacity() == 4);
 	
+	// Forward_myFList
+	Forward_list<int> myFList;
 	
-	// Forward_List
-	Forward_List<int> list;
+	// Testing size() and empty()
+	assert(myFList.size() == 0);
+	assert(myFList.empty() == true);
 	
-	assert(list.size() == 0);
-	assert(list.empty() == true);
+	// Testing push_front() and push_back()
+	myFList.push_front(2);
+	assert (myFList.back() == 2);
+	assert(myFList.front() == 2);
+	assert(myFList.empty() == false);
+	myFList.push_front(1);
+	assert (myFList.back() == 2);
+	assert(myFList.front() == 1);
+	myFList.push_back(3);
+	assert (myFList.back() == 3);
+	assert(myFList.front() == 1);
+	myFList.push_back(4);
+	assert (myFList.back() == 4);
+	assert(myFList.front() == 1);
 	
-	list.push_front(2);
-	assert (list.back() == 2);
-	list.push_front(1);
-	assert (list.back() == 2);
-	list.push_back(3);
-	assert (list.back() == 3);
-	list.push_back(4);
-	assert (list.back() == 4);
+	// Testing pop_front() and pop_back()
+	assert (myFList.pop_front() == 1);
+	assert (myFList.pop_back() == 4);
+	assert (myFList.pop_front() == 2);
+	assert (myFList.pop_back() == 3);
+	assert (myFList.size() == 0);
+	assert(myFList.empty() == true);
 	
-	assert (list.pop_front() == 1);
-	assert (list.pop_back() == 4);
-	assert (list.pop_front() == 2);
-	assert (list.pop_back() == 3);
-	assert (list.size() == 0);
-	return 0;
+	myFList.clear();
+	
+	// Doing everything again
+	myFList.push_front(2);
+	assert (myFList.back() == 2);
+	assert(myFList.front() == 2);
+	assert(myFList.empty() == false);
+	myFList.push_front(1);
+	assert (myFList.back() == 2);
+	assert(myFList.front() == 1);
+	myFList.push_back(3);
+	assert (myFList.back() == 3);
+	assert(myFList.front() == 1);
+	myFList.push_back(4);
+	assert (myFList.back() == 4);
+	assert(myFList.front() == 1);
+
+	// Testing assign
+	myFList.assign(10);
+	assert (myFList.size() == 4);
+	assert (myFList.pop_back() == 10);
+	assert (myFList.pop_back() == 10);
+	assert (myFList.pop_back() == 10);
+	assert (myFList.pop_back() == 10);
+	
+	std::cout << ">>> Leaving successfully.\n";
+	return EXIT_SUCCESS;
 }
