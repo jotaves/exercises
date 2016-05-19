@@ -1,5 +1,5 @@
 /*!
- *  @mainpage TAD myFList
+ *  @mainpage TAD List
  *  @authors João Victor Bezerra Barboza, Carlos Vincius Fernanes Rodrigues
  *  @date Maio, 2016
  *  @copyright Copyright &copy; 2016. Todos os direitos reservados.
