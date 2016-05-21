@@ -43,17 +43,17 @@ namespace MyHashTable {
             //! It is used to make code more concise.
             using Entry = HashEntry< KeyType, DataType >;
 
-            HashTbl ( int _initTableSize = DEFAULT_SIZE );
-            virtual ~HashTbl ();
+            HashTbl ( int _initTableSize = DEFAULT_SIZE ); // made
+            virtual ~HashTbl (); // made?
 
-            bool insert ( const KeyType &, const DataType & ) throw ( std::bad_alloc );
+            bool insert ( const KeyType &, const DataType & ) throw ( std::bad_alloc ); // in process
             bool remove ( const KeyType & );
             bool retrieve ( const KeyType &, DataType & ) const;
             void clear ( void );
-            bool isEmpty ( void ) const;
-            unsigned long int count ( void ) const;
+            bool isEmpty ( void ) const; // made
+            unsigned long int count ( void ) const; //made
 
-            void showStructure () const;
+            void showStructure () const; // made
 
        private:
            //! Disable copy constructor (we don't need it in this implementation).
@@ -71,7 +71,6 @@ namespace MyHashTable {
            //! Actual data strucure, corresponding to a table of collision list for elements.
            std::list< Entry > *mpDataTable;  
            // std::unique_ptr< std::forward_list< Entry > [] > mpDataTable;
-
            //! Hash table's default size: 10 table entries.
            static const short DEFAULT_SIZE = 11;     
     };

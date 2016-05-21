@@ -83,7 +83,7 @@ struct KeyEqual {
 
 int main( void )
 {
-    MyHashTable::HashTbl< Account::AcctKey, Account > accounts(20); // Hash table shall heve size 23.
+    MyHashTable::HashTbl< Account::AcctKey, Account > accounts(23); // Hash table shall heve size 23.
     Account MyAccts[] =
     {
         { "Jose Silva",    1, 1668, 20123, 1500.f },
@@ -101,7 +101,7 @@ int main( void )
         accounts.insert( MyAccts[i].getKey() , MyAccts[i] );
     }
 
-    accounts.showStructure();
+    //accounts.showStructure();
 
 
 

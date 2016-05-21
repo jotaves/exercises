@@ -1,3 +1,22 @@
+#include <cmath>
+
+int isPrime(int _size){
+    if (_size < 2) return false;
+    if (_size == 2) return true;
+
+    for(auto i(2); i <= ceil(sqrt(_size)); ++i){
+        /*std::cout << _size << "\n";
+        std::cout << _size % i << "\n";*/
+        if (_size % i == 0) return false;
+    }
+    return true;
+}
+
+// g++ -Wall -std=c++11 hash_table/src/pgm_ht.cpp -I hash_table/include/ -o hash_table/bin/pgm_ht 
+// g++ -Wall -std=c++11 src/pgm_ht.cpp -I include/ -o bin/pgm_ht 
+// ./bin/pgm_ht
+// ./hash_table/bin/pgm_ht
+
 #include <iostream>
 
 #include "hashtbl.h"
@@ -15,9 +34,14 @@ namespace MyHashTable {
      *  \throw UndefinedHashFunctionException if no external hash function is provided.
     */
     template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
-    HashTbl< KeyType, DataType, KeyHash, KeyEqual >::HashTbl ( int _initSize )
-        : mSize( _initSize ), mCount( 0u )
-    {
+    HashTbl< KeyType, DataType, KeyHash, KeyEqual >::HashTbl ( int _initSize ) : mCount( 0u ){
+        while(!isPrime(_initSize)){
+            ++_initSize;
+        }
+        mSize = _initSize;
+        mpDataTable = new std::list< Entry >[mSize];
+        //std::cout << mSize << "\n";
+        //std::cout << mCount << "\n";
     }
 
     //----------------------------------------------------------------------------------------
@@ -25,6 +49,7 @@ namespace MyHashTable {
     template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
     HashTbl< KeyType, DataType, KeyHash, KeyEqual >::~HashTbl ()
     {
+        delete [] mpDataTable;
     }
 
     //----------------------------------------------------------------------------------------
@@ -42,6 +67,14 @@ namespace MyHashTable {
     {
         // Flag used to indicate whether the data has been found or not.
         auto bDataFound( false );
+        auto place (_newKey % mSize);
+        HashEntry< KeyType, DataType > newEntry (_newKey, _newDataItem);
+
+        // add to mpDataTable
+
+        // testing
+        std::cout << place << "\n";
+
         return bDataFound;
     }
 
