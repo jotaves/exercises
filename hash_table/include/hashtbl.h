@@ -35,8 +35,8 @@ namespace MyHashTable {
      */
     template < typename KeyType,
                typename DataType,
-               typename KeyHash  = std::hash<KeyType>,
-               typename KeyEqual = std::equal_to<KeyType> >
+               typename KeyHash,
+               typename KeyEqual >
     class HashTbl
     {
         public:

@@ -1,10 +1,11 @@
 #include <cmath>
+#include <list>
 
 int isPrime(int _size){
     if (_size < 2) return false;
     if (_size == 2) return true;
 
-    for(auto i(2); i <= ceil(sqrt(_size)); ++i){
+    for(auto i(2); i <= ceil(sqrt(_size)); i++){
         /*std::cout << _size << "\n";
         std::cout << _size % i << "\n";*/
         if (_size % i == 0) return false;
@@ -36,7 +37,7 @@ namespace MyHashTable {
     template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
     HashTbl< KeyType, DataType, KeyHash, KeyEqual >::HashTbl ( int _initSize ) : mCount( 0u ){
         while(!isPrime(_initSize)){
-            ++_initSize;
+            _initSize++;
         }
         mSize = _initSize;
         mpDataTable = new std::list< Entry >[mSize];
@@ -49,6 +50,8 @@ namespace MyHashTable {
     template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
     HashTbl< KeyType, DataType, KeyHash, KeyEqual >::~HashTbl ()
     {
+        // limpar bloco por bloco
+        clear();
         delete [] mpDataTable;
     }
 
@@ -65,17 +68,23 @@ namespace MyHashTable {
     template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
     bool HashTbl< KeyType, DataType, KeyHash, KeyEqual >::insert ( const KeyType & _newKey, const DataType & _newDataItem ) throw ( std::bad_alloc )
     {
-        // Flag used to indicate whether the data has been found or not.
-        auto bDataFound( false );
-        auto place (_newKey % mSize);
-        HashEntry< KeyType, DataType > newEntry (_newKey, _newDataItem);
-
-        // add to mpDataTable
-
-        // testing
-        std::cout << place << "\n";
-
-        return bDataFound;
+        if (mCount/mSize > 1) rehash();
+        KeyHash hash;
+        KeyEqual compare;
+        // Faz o mod e acha o lugar que deve estar na lista
+        auto place (hash(_newKey) % mSize);
+        // Percorre a lista dentro da mpDataTable[place] e procura se há algum elemento com chave igual
+        for(auto i(mpDataTable[place].begin()); i != mpDataTable[place].end(); i++){
+            if (compare((*i).mKey, _newKey)){
+                // Se a chave for igual, sobrescreve dados do elemento
+                (*i).mData = _newDataItem;
+                return false;
+            }
+        }
+        // Se não houver chave igual, adiciona elemento à lista
+        mpDataTable[place].emplace_back(_newKey, _newDataItem);
+        mCount++;
+        return true;
     }
 
 
@@ -89,9 +98,20 @@ namespace MyHashTable {
     template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
     bool HashTbl< KeyType, DataType, KeyHash, KeyEqual >::remove ( const KeyType & _searchKey )
     {
-        // TODO
-        auto bRemoved( false );
-        return bRemoved;
+        KeyHash hash;
+        KeyEqual compare;
+
+        auto place (hash(_searchKey) % mSize);
+
+        for(auto i(mpDataTable[place].begin()); i != mpDataTable[place].end(); i++){
+            if (compare((*i).mKey, _searchKey)){
+                // Se a chave for igual, sobrescreve dados do elemento
+                mpDataTable[place].erase(i);
+                mCount--;
+                return true;
+            }
+        }
+        return false;
     }
 
     //----------------------------------------------------------------------------------------
@@ -105,16 +125,30 @@ namespace MyHashTable {
     template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
     bool HashTbl< KeyType, DataType, KeyHash, KeyEqual >::retrieve ( const KeyType & _searchKey, DataType & _dataItem ) const
     {
-        // TODO
-        auto bFound( false );
-        return bFound;
+        KeyHash hash;
+        KeyEqual compare;
+        auto place(hash(_searchKey) % mSize);
+        for(auto i(mpDataTable[place].begin()); i != mpDataTable[place].end(); i++){
+            if (compare((*i).mKey, _searchKey)){
+                _dataItem = (*i).mData;
+                return true;
+            }
+        }
+        return false;
     }
 
     //! Clears the data table.
     template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
     void HashTbl< KeyType, DataType, KeyHash, KeyEqual >::clear ()
     {
-        // TODO
+        for(auto i(0); i < mSize; i++){
+            mpDataTable[i].erase (mpDataTable[i].begin(), mpDataTable[i].end());
+        }
+        mCount = 0;
+        /*
+        delete [] mpDataTable;
+        mpDataTable = new std::list< Entry >[mSize];
+        */
     }
 
     //! Tests whether the table is empty.
@@ -153,6 +187,9 @@ namespace MyHashTable {
             }
             std::cout << "}\n";
         }
+    }
+    void rehash( void ){
+
     }
 
 } // namespace MyHashTable

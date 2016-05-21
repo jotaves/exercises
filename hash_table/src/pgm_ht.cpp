@@ -3,6 +3,8 @@
 #include <iostream>
 #include <functional>
 #include <tuple>
+#include <cassert>
+#include <string>
 
 #include "hashtbl.h"
 
@@ -15,8 +17,13 @@ struct Account
     int mBranchCode;        // (key) Branch code.
     int mNumber;            // (key) Account number.
     float mBalance;         // Account balance.
-
+    
+    #ifdef TYPE1
     using AcctKey = int;
+    #endif
+    #ifdef TYPE2
+    using AcctKey = std::pair < std::string, int >;
+    #endif
 
     Account( std::string _Name = "<empty>",
              int _BankCode = 1,  // Banco do Brasil.
@@ -30,6 +37,7 @@ struct Account
            mBalance( _Balance )
         { /* Empty */ }
 
+    #ifdef TYPE1
     /*!
      * \brief Gera a chave (versão 1) que eh igual a conta corrente.
      */
@@ -37,6 +45,15 @@ struct Account
     {
         return mNumber;
     }
+    #endif
+
+    #ifdef TYPE2
+    AcctKey getKey () const
+    {
+        return {mClientName, mNumber};
+    }
+
+    #endif
 
     const Account& operator= ( const Account& rhs )
     {
@@ -65,14 +82,14 @@ struct Account
     }
 };
 
-
+#ifdef TYPE1
 struct KeyHash {
     std::size_t operator()(const Account::AcctKey& k) const
     {
         return  std::hash<int>()( k );
     }
 };
- 
+
 struct KeyEqual {
     bool operator()(const Account::AcctKey& lhs, const Account::AcctKey& rhs) const
     {
@@ -80,10 +97,30 @@ struct KeyEqual {
     }
 };
 
+#endif
+
+#ifdef TYPE2
+
+struct KeyHash {
+    std::size_t operator()(const Account::AcctKey& k) const
+    {
+        return (std::hash<std::string>()( k.first ) xor std::hash<int>()( k.second));
+    }
+};
+
+struct KeyEqual {
+    bool operator()(const Account::AcctKey& lhs, const Account::AcctKey& rhs) const
+    {
+        return lhs.first == rhs.first and lhs.second == rhs.second;
+    }
+};
+
+#endif
+
 
 int main( void )
 {
-    MyHashTable::HashTbl< Account::AcctKey, Account > accounts(23); // Hash table shall heve size 23.
+    MyHashTable::HashTbl< Account::AcctKey, Account, KeyHash, KeyEqual > accounts(23); // Hash table shall heve size 23.
     Account MyAccts[] =
     {
         { "Jose Silva",    1, 1668, 20123, 1500.f },
@@ -91,22 +128,32 @@ int main( void )
         { "Aline Bastos", 13,   33, 55723,  500.f },
         { "Pedro Gomes",   1, 1801, 87661, 5800.f },
     };
-    #ifdef _NOW_NOW
-    Account::AcctKey searchKey; // An account key
-    #endif
+
     auto nAccts = sizeof( MyAccts ) / sizeof( Account );
 
     for ( auto i(0u) ; i < nAccts ; ++i )
     {
-        accounts.insert( MyAccts[i].getKey() , MyAccts[i] );
+        assert (accounts.insert( MyAccts[i].getKey() , MyAccts[i] ) == true);
     }
 
-    //accounts.showStructure();
+    for ( auto i(0u) ; i < nAccts ; ++i )
+    {
+        assert (accounts.insert( MyAccts[i].getKey() , MyAccts[i] ) == false);
+    }
 
+    #ifdef TYPE1
+    
+    Account Compare;
+    assert ((accounts.insert(12344, { "Pedro Orde",   1, 1801, 87661, 5800.f })) == true);
+    assert ((accounts.insert(12344, { "Pedro Ordep",   2, 1801, 87661, 5800.f })) == false);
 
+    accounts.retrieve(35091, Compare);
+    assert (Compare.getKey() == MyAccts[1].getKey());
+    accounts.showStructure();
 
-#ifdef _NOT_NOW
     // Checks for accounts and prints records if found
+    Account::AcctKey searchKey; // An account key
+    Account acct;
     cout << endl;
     cout << "Enter account number (CTRL+D to exit program): ";
     while ( cin >> searchKey )
@@ -122,9 +169,45 @@ int main( void )
 
         cout << "Enter account number (CTRL+D to exit program): ";
     }
-#endif
+    
+    #endif
+
+    #ifdef TYPE2
+    
+    Account Compare;
+    assert ((accounts.insert({"Pedro Ordep", 12344}, { "Pedro Orde",   1, 1801, 12344, 5800.f })) == true);
+    assert ((accounts.insert({"Pedro Ordep", 12344}, { "Pedro Ordep",   2, 1801, 12344, 5800.f })) == false);
+
+    accounts.retrieve({"Carlos Prado", 35091}, Compare);
+    assert (Compare.getKey() == MyAccts[1].getKey());
+
+    // Checks for accounts and prints records if found
+    Account::AcctKey searchKey; // An account key
+    Account acct;
+    cout << endl;
+    cout << "Enter an account name (CTRL+D to exit program): ";
+    while ( getline (cin, searchKey.first) )
+    {
+        cout << "Enter an account number: ";
+        cin >> searchKey.second;
+        accounts.showStructure();
+        if ( accounts.retrieve( searchKey, acct ) )
+        {
+            cout << acct.mClientName << " " << acct.mNumber << " " << acct.mBalance << endl;
+            cout << "Removing this account....\n";
+            accounts.remove( acct.getKey() );
+        }
+        else
+            cout << "Account " << searchKey.first << " " << searchKey.second << " not found." << endl;
+        cin.ignore();
+        cout << "Enter account number (CTRL+D to exit program): ";
+    }
+
+    #endif
 
     std::cout << "\n>>> Normal exiting...\n";
+
+    //accounts.clear();
 
     return EXIT_SUCCESS;
 }
