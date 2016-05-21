@@ -188,8 +188,30 @@ namespace MyHashTable {
             std::cout << "}\n";
         }
     }
-    void rehash( void ){
+    
 
+    template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
+    void HashTbl< KeyType, DataType, KeyHash, KeyEqual >::rehash( void ){
+        KeyHash hash;
+
+        auto newSize (mSize*2);
+        std::cout << "old size: " << mSize << "\n";
+        while(!isPrime(newSize)){
+            newSize++;
+        }
+        
+        std::list< Entry > *aux = new std::list< Entry >[newSize];      
+        for(auto place(0u); place < mSize; place++){
+            for(auto i(mpDataTable[place].begin()); i != mpDataTable[place].end(); i++){
+                auto newPlace (hash((*i).mKey) % newSize);
+                aux[newPlace].push_back(*i); 
+            }
+        }
+        
+        delete [] mpDataTable;
+        mSize = newSize;
+        std::cout << "new size: " << mSize << "\n";
+        mpDataTable = aux;
     }
 
 } // namespace MyHashTable

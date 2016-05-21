@@ -77,5 +77,5 @@ namespace MyHashTable {
 
 } // namespace MyHashTable
 
-#include "hashtbl.inl"
+#include "hashtbl.cpp"
 #endif
