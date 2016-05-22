@@ -195,7 +195,7 @@ namespace MyHashTable {
         KeyHash hash;
 
         auto newSize (mSize*2);
-        std::cout << "old size: " << mSize << "\n";
+        //std::cout << "old size: " << mSize << "\n";
         while(!isPrime(newSize)){
             newSize++;
         }
@@ -210,7 +210,7 @@ namespace MyHashTable {
         
         delete [] mpDataTable;
         mSize = newSize;
-        std::cout << "new size: " << mSize << "\n";
+        //std::cout << "new size: " << mSize << "\n";
         mpDataTable = aux;
     }
 
