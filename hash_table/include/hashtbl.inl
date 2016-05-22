@@ -20,7 +20,7 @@ int isPrime(int _size){
 
 #include <iostream>
 
-#include "hashtbl.h"
+#include "hashtbl.hpp"
 
 //! MyHashTable namespace encapsulates all class related to a simple hash function definition.
 namespace MyHashTable {

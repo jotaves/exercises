@@ -6,7 +6,7 @@
 #include <cassert>
 #include <string>
 
-#include "hashtbl.h"
+#include "hashtbl.hpp"
 
 using namespace std;
 
@@ -23,6 +23,9 @@ struct Account
     #endif
     #ifdef TYPE2
     using AcctKey = std::pair < std::string, int >;
+    #endif
+    #ifdef TYPE3
+    using AcctKey = std::tuple < std::string , int, int, int >;
     #endif
 
     Account( std::string _Name = "<empty>",
@@ -51,6 +54,14 @@ struct Account
     AcctKey getKey () const
     {
         return {mClientName, mNumber};
+    }
+    
+    #endif
+    
+    #ifdef TYPE3
+    AcctKey getKey () const
+    {
+        return std::tuple < std::string , int, int, int >(mClientName, mBankCode, mBranchCode, mNumber);
     }
 
     #endif
@@ -117,6 +128,23 @@ struct KeyEqual {
 
 #endif
 
+#ifdef TYPE3
+
+struct KeyHash {
+    std::size_t operator()(const Account::AcctKey& k) const
+    {
+        return (std::hash<std::string>()(get<0>(k)) xor std::hash<int>()(get<1>(k)) xor std::hash<int>()(get<2>(k)) xor std::hash<int>()(get<3>(k)));
+    }
+};
+
+struct KeyEqual {
+    bool operator()(const Account::AcctKey& lhs, const Account::AcctKey& rhs) const
+    {
+        return get<0>(lhs) == get<0>(rhs) and get<1>(lhs) == get<1>(rhs)  and get<2>(lhs) == get<2>(rhs) and get<3>(lhs) == get<3>(rhs);
+    }
+};
+
+#endif
 
 int main( void )
 {
@@ -204,6 +232,18 @@ int main( void )
     }
 
     #endif
+    
+    #ifdef TYPE3
+
+    Account Compare;
+    assert ((accounts.insert(std::tuple < std::string , int, int, int >("Pedro Ordep",   2, 1801, 12344), { "Pedro Orde",   1, 1801, 12344, 5800.f })) == true);
+    assert ((accounts.insert(std::tuple < std::string , int, int, int >("Pedro Ordep",   2, 1801, 12344), { "Pedro Ordep",   2, 1801, 12344, 5800.f })) == false);
+
+    accounts.retrieve(std::tuple < std::string , int, int, int >("Carlos Prado",  1, 1668, 35091), Compare);
+    assert (Compare.getKey() == MyAccts[1].getKey());
+    
+    accounts.showStructure();
+    #endif    
 
     std::cout << "\n>>> Normal exiting...\n";
 
