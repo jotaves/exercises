@@ -19,7 +19,7 @@ Esta chave tem por forma de armazenamento um par com o nome de um cliente e o n�
 ### Terceira
 Esta chave tem por forma de armazenamento uma tupla que possui o nome de um cliente, código do banco, número da agência e da conta, do mesmo. É definida como:
 
-    using AcctKey = std::tuple<std::string, int, int, int>;
+    using AcctKey = std::tuple < std::string, int, int, int >;
 
 ## Como compilar
 Para compilar, deve-se escolher primeiramente a estrutura a ser utilizada: one, two ou three,
