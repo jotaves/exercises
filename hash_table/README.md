@@ -22,7 +22,7 @@ Esta chave tem por forma de armazenamento uma tupla que possui o nome de um clie
     using AcctKey = std::tuple < std::string, int, int, int >;
 
 ## Como compilar
-Para compilar, deve-se escolher primeiramente a estrutura a ser utilizada: one, two ou three,
+Para compilar, deve-se entrar no diretório do projeto pelo terminal e escolher a estrutura a ser utilizada para compilação: one, two ou three,
 que são os três possíveis de acordo com o exemplo a seguir:
 
 `make one`, `make two` ou `make three`.
