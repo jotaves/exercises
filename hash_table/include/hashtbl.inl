@@ -178,7 +178,6 @@ namespace MyHashTable {
             std::cout << "}\n";
         }
     }
-    
 
     template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
     void HashTbl< KeyType, DataType, KeyHash, KeyEqual >::rehash( void ){
