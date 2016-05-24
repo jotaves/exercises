@@ -14,7 +14,8 @@ using namespace std;
 
 int main( void )
 {
-    MyHashTable::HashTbl< Account::AcctKey, Account, KeyHash, KeyEqual > accounts(2); // Hash table shall heve size 23.
+    MyHashTable::HashTbl< Account::AcctKey, Account, KeyHash, KeyEqual > accounts(2);
+    assert(accounts.isEmpty() == true);
     Account MyAccts[] =
     {
         { "Jose Silva",    1, 1668, 20123, 1500.f },
@@ -29,14 +30,18 @@ int main( void )
     {
         assert (accounts.insert( MyAccts[i].getKey() , MyAccts[i] ) == true);
     }
+    
+    assert(accounts.isEmpty() == false);
 
     for ( auto i(0u) ; i < nAccts ; ++i )
     {
         assert (accounts.insert( MyAccts[i].getKey() , MyAccts[i] ) == false);
     }
+    
+    assert(accounts.isEmpty() == false);
 
     #ifdef TYPE1
-    
+
     Account Compare;
     assert ((accounts.insert(12344, { "Pedro Orde",   1, 1801, 87661, 5800.f })) == true);
     assert ((accounts.insert(12344, { "Pedro Ordep",   2, 1801, 87661, 5800.f })) == false);
@@ -106,11 +111,12 @@ int main( void )
     #endif
     
     #ifdef TYPE3
+    
     Account::AcctKey searchKey; // An account key
     Account acct;
     Account Compare;
-    assert ((accounts.insert(std::tuple < std::string , int, int, int >("Pedro Ordep",   2, 1801, 12344), { "Pedro Orde",   1, 1801, 12344, 5800.f })) == true);
-    assert ((accounts.insert(std::tuple < std::string , int, int, int >("Pedro Ordep",   2, 1801, 12344), { "Pedro Ordep",   2, 1801, 12344, 5800.f })) == false);
+    assert ((accounts.insert( make_tuple("Pedro Ordep",   2, 1801, 12344), { "Pedro Orde",   1, 1801, 12344, 5800.f })) == true);
+    assert ((accounts.insert( make_tuple("Pedro Ordep",   2, 1801, 12344), { "Pedro Ordep",   2, 1801, 12344, 5800.f })) == false);
 
     accounts.retrieve(std::tuple < std::string , int, int, int >("Carlos Prado",  1, 1668, 35091), Compare);
     assert (Compare.getKey() == MyAccts[1].getKey());
@@ -138,11 +144,14 @@ int main( void )
         accounts.showStructure();
         cout << "Enter account number (CTRL+D to exit program): ";
     }    
+    
     #endif
 
     std::cout << "\n>>> Normal exiting...\n";
 
-    //accounts.clear();
+    accounts.clear();
+    assert(accounts.isEmpty() == true);
+    accounts.showStructure();
 
     return EXIT_SUCCESS;
 }

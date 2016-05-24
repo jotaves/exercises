@@ -9,7 +9,7 @@ three:
 run:
 	./bin/pgm_ht
 clean:
-	rm bin/drive
+	rm bin/pgm_ht
 mleak:
 	valgrind --tool=memcheck --leak-check=yes ./bin/pgm_ht 
 mlfull:

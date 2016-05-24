@@ -44,12 +44,12 @@ namespace MyHashTable {
             using Entry = HashEntry< KeyType, DataType >;
 
             HashTbl ( int _initTableSize = DEFAULT_SIZE ); // made
-            virtual ~HashTbl (); // made?
+            virtual ~HashTbl (); // made
 
-            bool insert ( const KeyType &, const DataType & ) throw ( std::bad_alloc ); // in process
-            bool remove ( const KeyType & );
-            bool retrieve ( const KeyType &, DataType & ) const;
-            void clear ( void );
+            bool insert ( const KeyType &, const DataType & ) throw ( std::bad_alloc ); // made
+            bool remove ( const KeyType & ); //made
+            bool retrieve ( const KeyType &, DataType & ) const; //made
+            void clear ( void ); // made
             bool isEmpty ( void ) const; // made
             unsigned long int count ( void ) const; //made
 

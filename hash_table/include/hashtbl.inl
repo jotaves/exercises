@@ -6,17 +6,10 @@ int isPrime(int _size){
     if (_size == 2) return true;
 
     for(auto i(2); i <= ceil(sqrt(_size)); i++){
-        /*std::cout << _size << "\n";
-        std::cout << _size % i << "\n";*/
         if (_size % i == 0) return false;
     }
     return true;
 }
-
-// g++ -Wall -std=c++11 hash_table/src/pgm_ht.cpp -I hash_table/include/ -o hash_table/bin/pgm_ht 
-// g++ -Wall -std=c++11 src/pgm_ht.cpp -I include/ -o bin/pgm_ht 
-// ./bin/pgm_ht
-// ./hash_table/bin/pgm_ht
 
 #include <iostream>
 
@@ -100,7 +93,6 @@ namespace MyHashTable {
     {
         KeyHash hash;
         KeyEqual compare;
-
         auto place (hash(_searchKey) % mSize);
 
         for(auto i(mpDataTable[place].begin()); i != mpDataTable[place].end(); i++){
@@ -142,13 +134,11 @@ namespace MyHashTable {
     void HashTbl< KeyType, DataType, KeyHash, KeyEqual >::clear ()
     {
         for(auto i(0); i < mSize; i++){
-            mpDataTable[i].erase (mpDataTable[i].begin(), mpDataTable[i].end());
+            if(!mpDataTable[i].empty()){
+                mpDataTable[i].erase (mpDataTable[i].begin(), mpDataTable[i].end());
+            }        
         }
         mCount = 0;
-        /*
-        delete [] mpDataTable;
-        mpDataTable = new std::list< Entry >[mSize];
-        */
     }
 
     //! Tests whether the table is empty.
@@ -193,9 +183,8 @@ namespace MyHashTable {
     template < typename KeyType, typename DataType, typename KeyHash, typename KeyEqual >
     void HashTbl< KeyType, DataType, KeyHash, KeyEqual >::rehash( void ){
         KeyHash hash;
-
         auto newSize (mSize*2);
-        //std::cout << "old size: " << mSize << "\n";
+        
         while(!isPrime(newSize)){
             newSize++;
         }
@@ -210,7 +199,6 @@ namespace MyHashTable {
         
         delete [] mpDataTable;
         mSize = newSize;
-        //std::cout << "new size: " << mSize << "\n";
         mpDataTable = aux;
     }
 
