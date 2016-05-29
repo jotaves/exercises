@@ -121,6 +121,7 @@ int main( void ){
 	assert(myVector.at(myVector.capacity()-1) == 1);
 	assert(myVector.capacity() == 4);
 	
+
 	// Forward_myFList
 	Forward_list<int> myFList;
 	
@@ -175,6 +176,29 @@ int main( void ){
 	assert (myFList.pop_back() == 10);
 	assert (myFList.pop_back() == 10);
 	assert (myFList.pop_back() == 10);
+
+
+	myFList.clear();
+	myFList.push_back(1);
+	myFList.push_back(2);
+	myFList.push_back(3);
+	myFList.push_back(4);
+
+	// Testing iterators
+	Forward_list<int>::iterator it1 (myFList.begin());
+	Forward_list<int>::iterator its1 (myFList.end());
+	assert(*it1 == 1);
+	it1++;
+	assert(*it1 == 2);
+	++it1;
+	assert(*it1 == 3);
+	it1++;
+	assert(*it1 == 4);
+	assert((it1 == its1) == true);
+	assert((it1 != its1) == false);
+	it1 = myFList.begin();
+	assert((it1 == its1) == false);
+	assert((it1 != its1) == true);
 	
 	std::cout << ">>> Leaving successfully.\n";
 	return EXIT_SUCCESS;
